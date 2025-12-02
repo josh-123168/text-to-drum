@@ -1,46 +1,78 @@
 from playsound3 import playsound
 import time
 import threading
+import sys
 
-bpm = 240
+bpm = int(input("Enter BPM (60-240):"))
+if bpm < 60 or bpm > 240:
+    print("BPM error")
+    sys.exit()
+
 delay = 60/bpm
 
-f = False
-t = True
+print("Kick:    '.'\n\n\nHi-Hat:  '-'\n\n\nSnare:   '_'\n\n\nRest:    ' '\n")
+beatstring = input("Enter beat loop string (Min 2 characters):")
+
+def translate(beat):
+    beatlist = []
+    val = 0
+    for symbol in beat:
+        if symbol == " ":   # rest
+            val = 0
+        elif symbol == ".": # kick
+            val = 1
+        elif symbol == "-": # hat
+            val = 2
+        elif symbol == "_": # snare
+            val = 3
+        else:
+            return
+        beatlist.append(val)
+    return beatlist
+
+def wait():
+    threading.Event().wait(delay)
 
 def kick(b):
     playsound("audio/kick.wav", block=b)
-    threading.Event().wait(delay)
+    wait()
 
 def snare(b):
     playsound("audio/snare.wav", block=b)
-    threading.Event().wait(delay)
+    wait()
 
 def hat(b):
     playsound("audio/hat.wav", block=b)
-    threading.Event().wait(delay)
+    wait()
 
-kick(f)
-hat(f)
-snare(f)
-hat(f)
-hat(f)
-kick(f)
-snare(f)
-hat(f)
-kick(f)
-hat(f)
-snare(f)
-hat(f)
-hat(f)
-kick(f)
-snare(f)
-hat(f)
-kick(f)
-hat(f)
-snare(f)
-hat(f)
-hat(f)
-kick(f)
-snare(f)
-hat(t)
+def rest(b):
+    playsound("audio/empty.mp3", block=b)
+    wait()
+
+def playBeat(list):
+    last = len(list) - 1
+    finalsound = list.pop(last)
+    for sound in list:
+        if sound == 0:
+            rest(False)
+        elif sound == 1:
+            kick(False)
+        elif sound == 2:
+            hat(False)
+        elif sound == 3:
+            snare(False)
+    if finalsound == 0:
+        rest(True)
+    elif finalsound == 1:
+        kick(True)
+    elif finalsound == 2:
+        hat(True)
+    elif finalsound == 3:
+        snare(True)
+
+if (len(beatstring) < 2):
+    print("String too short")
+elif translate(beatstring) == None:
+    print("Unknown symbols")
+else:
+    playBeat(translate(beatstring))
