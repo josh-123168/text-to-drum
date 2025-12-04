@@ -8,7 +8,7 @@ if bpm < 60 or bpm > 240:
     print("BPM error")
     sys.exit()
 
-delay = 60/bpm
+delay = 60/bpm # in seconds
 
 print("Kick:    '.'\n\n\nHi-Hat:  '-'\n\n\nSnare:   '_'\n\n\nRest:    ' '\n")
 beatstring = input("Enter beat loop string (Min 2 characters):")
@@ -32,7 +32,7 @@ def translate(beat):
 
 def wait():
     threading.Event().wait(delay)
-
+   
 def kick(b):
     playsound("audio/kick.wav", block=b)
     wait()
