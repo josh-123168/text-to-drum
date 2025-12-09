@@ -50,6 +50,7 @@ def rest(b):
 
 def playBeat(list):
     last = len(list) - 1
+    duration = len(list) * delay
     finalsound = list.pop(last)
     for sound in list:
         if sound == 0:
@@ -68,9 +69,9 @@ def playBeat(list):
         hat(True)
     elif finalsound == 3:
         snare(True)
-    print("Done")
+    print(f'Done (Beat Length: {duration:.2f}s)')
 
-if (len(beatstring) < 2):
+if len(beatstring) < 2:
     print("String too short")
 elif translate(beatstring) == None:
     print("Unknown symbols")
