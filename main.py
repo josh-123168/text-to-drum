@@ -48,11 +48,11 @@ def rest(b):
     playsound("audio/empty.mp3", block=b)
     wait()
 
-def playBeat(list):
-    last = len(list) - 1
-    duration = len(list) * delay
-    finalsound = list.pop(last)
-    for sound in list:
+def playBeat(beatlist):
+    last = len(beatlist) - 1
+    duration = len(beatlist) * delay
+    finalsound = beatlist.pop(last)
+    for sound in beatlist:
         if sound == 0:
             rest(False)
         elif sound == 1:
