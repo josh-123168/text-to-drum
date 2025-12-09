@@ -1,5 +1,4 @@
 from playsound3 import playsound
-import time
 import threading
 import sys
 
@@ -8,22 +7,22 @@ if bpm < 60 or bpm > 240:
     print("BPM error")
     sys.exit()
 
-delay = 60/bpm # in seconds
+delay = 30/bpm
 
-print("Kick:    '.'\n\n\nHi-Hat:  '-'\n\n\nSnare:   '_'\n\n\nRest:    ' '\n")
-beatstring = input("Enter beat loop string (Min 2 characters):")
+print("Kick:    '.'\n\n\nHi-Hat:  '-'\n\n\nSnare:   '='\n\n\nRest:    ' '\n")
+beatstring = input("Enter eighth-note beat string (Min 2 characters):")
 
 def translate(beat):
     beatlist = []
     val = 0
     for symbol in beat:
-        if symbol == " ":   # rest
+        if symbol == " ":
             val = 0
-        elif symbol == ".": # kick
+        elif symbol == ".":
             val = 1
-        elif symbol == "-": # hat
+        elif symbol == "-":
             val = 2
-        elif symbol == "_": # snare
+        elif symbol == "=":
             val = 3
         else:
             return
@@ -69,10 +68,12 @@ def playBeat(list):
         hat(True)
     elif finalsound == 3:
         snare(True)
+    print("Done")
 
 if (len(beatstring) < 2):
     print("String too short")
 elif translate(beatstring) == None:
     print("Unknown symbols")
 else:
+    print("Playing...")
     playBeat(translate(beatstring))
